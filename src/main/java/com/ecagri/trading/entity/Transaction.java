@@ -39,4 +39,12 @@ public class Transaction {
         this.stockCode = stockCode;
         this.stockQuantity = stockQuantity;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return transactionId.equals(that.transactionId);
+    }
 }

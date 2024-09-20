@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,51 +41,50 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountResponseDto> getAllAccounts() {
         List<Account> accounts = accountRepository.findAll();
 
-        List<AccountResponseDto> accountDtos = accounts.stream().map(AccountMapper::toAccountDto).collect(Collectors.toList());
-
-        return accountDtos;
+        return accounts.stream().map(AccountMapper::toAccountDto).collect(Collectors.toList());
     }
 
     @Override
     public AccountResponseDto getAccount(Long customer_id){
-        Account account = accountRepository.findByAccountOwnerId(customer_id);
+        Optional<Account> account = accountRepository.findByAccountOwnerId(customer_id);
 
-        if (account == null) {
+        if (account.isEmpty()){
             throw new IllegalArgumentException("Account not exist!");
         }
 
-        return AccountMapper.toAccountDto(account);
+        return AccountMapper.toAccountDto(account.orElse(null));
     }
 
     @Transactional
     @Override
     public void deleteAccount(Long customerId) {
-        Account account = accountRepository.findByAccountOwnerId(customerId);
+        Optional<Account> account = accountRepository.findByAccountOwnerId(customerId);
 
-        if (account != null) {
-            List<Portfolio> portfolios = account.getPortfolios();
-
-            if (portfolios != null) {
-                for (Portfolio portfolio : portfolios) {
-                    portfolioService.deletePortfolio(portfolio.getPortfolioId());
-                }
-            }
-
-            accountRepository.delete(account);
+        if (account.isEmpty()) {
+            throw new IllegalArgumentException("Account not exist!");
         }
+
+        List<Portfolio> portfolios = account.get().getPortfolios();
+        if (portfolios != null) {
+            for (Portfolio portfolio : portfolios) {
+                portfolioService.deletePortfolio(portfolio.getPortfolioId());
+            }
+        }
+
+        accountRepository.delete(account.get());
     }
 
     @Override
     public AccountResponseDto updateAccount(Long customerId, String account_owner_name) {
-        Account account = accountRepository.findByAccountOwnerId(customerId);
+        Optional<Account> account = accountRepository.findByAccountOwnerId(customerId);
 
-        if (account == null){
+        if (account.isEmpty()){
             throw new IllegalArgumentException("Account not exist!");
         }
 
-        account.setAccountOwnerFullName(account_owner_name);
+        account.get().setAccountOwnerFullName(account_owner_name);
 
-        Account savedAccount = accountRepository.save(account);
+        Account savedAccount = accountRepository.save(account.get());
 
         return AccountMapper.toAccountDto(savedAccount);
 

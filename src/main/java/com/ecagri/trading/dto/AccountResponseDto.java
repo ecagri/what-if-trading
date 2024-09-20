@@ -27,4 +27,13 @@ public class AccountResponseDto {
     @Schema(description = "Portfolios information of the account.")
     private List<PortfolioResponseDto> portfolios;
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        AccountResponseDto that = (AccountResponseDto) obj;
+
+        return accountOwnerId.equals(that.accountOwnerId);
+    }
 }

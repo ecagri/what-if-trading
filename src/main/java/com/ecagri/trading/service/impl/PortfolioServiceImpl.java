@@ -12,6 +12,7 @@ import com.ecagri.trading.repository.AssetRepository;
 import com.ecagri.trading.repository.PortfolioRepository;
 import com.ecagri.trading.repository.TransactionRepository;
 import com.ecagri.trading.service.PortfolioService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,6 +84,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         return PortfolioMapper.toPortfolioDto(portfolioRepository.save(portfolioToUpdate));
     }
 
+    @Transactional
     @Override
     public void deletePortfolio(Long portfolioId) {
         Optional<Portfolio> portfolio = portfolioRepository.findById(portfolioId);
