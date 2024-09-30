@@ -12,6 +12,9 @@ The "What If Trading" application allows users to simulate trading in the Borsa 
 - **Stock Prices**: Integrated with the [Financial Modeling Prep API](https://site.financialmodelingprep.com/) to fetch end-of-day stock prices (note: the free API does not provide real-time prices).
 - **Scheduled Operations**: The application retrieves stock prices and performs operations every weekday at 18:30.
 - **API Documentation**: Swagger is utilized for clear and user-friendly documentation of the APIs.
+![img_1.png](swagger1.png)
+![img_2.png](swagger2.png)
+![img_3.png](swagger3.png)
 
 ### Frontend
 - **Framework**: React.js
@@ -21,7 +24,7 @@ The "What If Trading" application allows users to simulate trading in the Borsa 
 - **Unit Testing**: All services have been thoroughly unit tested using JUnit to verify the correct behavior of backend components.
 - **Test Framework**: JUnit 5 and Mockito were used for writing and executing the unit tests.
 
-![img.png](img.png)
+![img.png](unitTest.png)
 
 
 ## Features
