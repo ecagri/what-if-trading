@@ -23,7 +23,6 @@ The "What If Trading" application allows users to simulate trading in the Borsa 
 ## Testing
 - **Unit Testing**: All services have been thoroughly unit tested using JUnit to verify the correct behavior of backend components.
 - **Test Framework**: JUnit 5 and Mockito were used for writing and executing the unit tests.
-
 ![img.png](unitTest.png)
 
 
