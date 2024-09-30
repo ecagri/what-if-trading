@@ -30,4 +30,12 @@ public class PortfolioResponseDto {
     @Schema(description = "A list of all transactions associated with the portfolio.")
     private List<TransactionResponseDto> transactions;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PortfolioResponseDto that = (PortfolioResponseDto) o;
+        return portfolioId.equals(that.portfolioId);
+    }
+
 }

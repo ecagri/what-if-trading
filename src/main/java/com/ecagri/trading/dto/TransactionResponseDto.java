@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Schema(name = "Transaction Response", description = "Data Transfer Object (DTO) for retrieving transaction details.")
 public class TransactionResponseDto {
 
-    @Schema(description = "Stock ID.", example = "123456")
+    @Schema(description = "Transaction ID.", example = "123456")
     private Long transactionId;
 
     @Schema(description = "Code of the stock.", example = "AKBNK")

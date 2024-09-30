@@ -48,7 +48,7 @@ public class StockMarketServiceImpl implements StockMarketService {
 
     @Transactional
     @Scheduled(cron = "0 30 18 * * MON-FRI")
-    public void pullStockPrices() {
+    protected void pullStockPrices() {
         String url = "https://financialmodelingprep.com/api/v3/symbol/Ist?apikey=" + stockApiKey;
         try {
             List<Stock> stocks = restTemplate.exchange(
@@ -77,6 +77,5 @@ public class StockMarketServiceImpl implements StockMarketService {
             System.err.println("Error while updating stocks: " + e.getMessage());
         }
     }
-
 
 }

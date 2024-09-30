@@ -43,13 +43,13 @@ public class AssetServiceImpl implements AssetService {
             throw new RuntimeException("Stock not found");
         }
 
-        asset.setAveragePrice(stock.get().getPrice());
-
         Optional<Portfolio> portfolio = portfolioRepository.findById(portfolioId);
 
         if(portfolio.isEmpty()) {
             throw new IllegalArgumentException("Portfolio not exist.");
         }
+
+        asset.setAveragePrice(stock.get().getPrice());
 
         asset.setPortfolio(portfolio.get());
 

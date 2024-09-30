@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,25 +67,25 @@ public class TransactionServiceImpl implements TransactionService {
             throw new RuntimeException("Insufficient money");
         }
 
-        Asset asset = assetRepository.findByStockCodeAndPortfolioPortfolioId(transaction.getStockCode(), portfolio.get().getPortfolioId());
+        Optional<Asset> asset = assetRepository.findByStockCodeAndPortfolioPortfolioId(transaction.getStockCode(), portfolio.get().getPortfolioId());
 
-        if (asset == null) {
-            asset = new Asset();
-            asset.setStockCode(transaction.getStockCode());
-            asset.setPortfolio(portfolio.get());
-            asset.setQuantity(transaction.getStockQuantity());
-            asset.setAveragePrice(transaction.getStockPrice());
+        if (asset.isEmpty()) {
+            asset = Optional.of(new Asset());
+            asset.get().setStockCode(transaction.getStockCode());
+            asset.get().setPortfolio(portfolio.get());
+            asset.get().setQuantity(transaction.getStockQuantity());
+            asset.get().setAveragePrice(transaction.getStockPrice());
         } else {
-            asset.setAveragePrice(calculateNewAveragePrice(
-                    asset.getAveragePrice(),
-                    asset.getQuantity(),
+            asset.get().setAveragePrice(calculateNewAveragePrice(
+                    asset.get().getAveragePrice(),
+                    asset.get().getQuantity(),
                     transaction.getStockQuantity(),
                     transaction.getStockPrice()
             ));
-            asset.setQuantity(asset.getQuantity().add(transaction.getStockQuantity()));
+            asset.get().setQuantity(asset.get().getQuantity().add(transaction.getStockQuantity()));
         }
 
-        assetRepository.save(asset);
+        assetRepository.save(asset.get());
 
         portfolio.get().setBalance(portfolio.get().getBalance().subtract(transaction.getStockQuantity().multiply(transaction.getStockPrice())));
 
@@ -116,28 +117,27 @@ public class TransactionServiceImpl implements TransactionService {
 
         transaction.setTransactionType("sell");
 
-        Asset asset = assetRepository.findByStockCodeAndPortfolioPortfolioId(transaction.getStockCode(), portfolio.get().getPortfolioId());
+        Optional<Asset> asset = assetRepository.findByStockCodeAndPortfolioPortfolioId(transaction.getStockCode(), portfolio.get().getPortfolioId());
 
-        if (asset == null || asset.getQuantity().compareTo(transaction.getStockQuantity()) < 0) {
+        if (asset.isEmpty() || asset.get().getQuantity().compareTo(transaction.getStockQuantity()) < 0) {
             throw new RuntimeException("Insufficient stock for stock code " + transaction.getStockCode() + " in portfolio.");
         }
 
-        asset.setAveragePrice(calculateNewAveragePrice(
-                asset.getAveragePrice(),
-                asset.getQuantity(),
-                transaction.getStockQuantity().negate(),
-                transaction.getStockPrice()
-        ));
-
-        asset.setQuantity(asset.getQuantity().subtract(transaction.getStockQuantity()));
-
-
+        asset.get().setQuantity(asset.get().getQuantity().subtract(transaction.getStockQuantity()));
 
         portfolio.get().setBalance(portfolio.get().getBalance().add(transaction.getStockQuantity().multiply(transaction.getStockPrice())));
-        if(asset.getQuantity().compareTo(BigDecimal.ZERO) == 0){
-            assetRepository.delete(asset);
+        if(asset.get().getQuantity().compareTo(BigDecimal.ZERO) == 0){
+            assetRepository.delete(asset.get());
         }else{
-            assetRepository.save(asset);
+            asset.get().setAveragePrice(calculateNewAveragePrice(
+                    asset.get().getAveragePrice(),
+                    asset.get().getQuantity(),
+                    transaction.getStockQuantity().negate(),
+                    transaction.getStockPrice()
+            ));
+
+            assetRepository.save(asset.get());
+
         }
 
         transactionRepository.save(transaction);
@@ -154,7 +154,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new IllegalArgumentException("Portfolio does not exist.");
         }
 
-        return portfolio.get().getTransactions().stream().map(TransactionMapper::toTransactionDto).collect(Collectors.toList());
+        return Optional.ofNullable(portfolio.get().getTransactions()).orElse(Collections.emptyList()).stream().map(TransactionMapper::toTransactionDto).collect(Collectors.toList());
     }
 
     private BigDecimal calculateNewAveragePrice(BigDecimal currentAveragePrice, BigDecimal currentQuantity, BigDecimal transactionQuantity, BigDecimal transactionPrice) {

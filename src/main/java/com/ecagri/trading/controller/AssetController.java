@@ -33,16 +33,6 @@ public class AssetController {
         return new ResponseEntity<>(assetService.createAsset(portfolio_id, assetDto), HttpStatus.CREATED);
     }
 
-//    @GetMapping("/by-code/{stock_code}")
-//    public ResponseEntity<List<AssetDto>> getAsset(@PathVariable("stock_code") String stock_code) {
-//        return new ResponseEntity<>(assetService.getAssetsByCode(stock_code), HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/by-portfolio/{portfolio_id}")
-//    public ResponseEntity<List<AssetDto>> getAsset(@PathVariable("portfolio_id") Long portfolio_id) {
-//        return new ResponseEntity<>(assetService.getAssetsByPortfolio(portfolio_id), HttpStatus.OK);
-//    }
-
     @Operation(summary = "Get assets: all, portfolio-specific, or stock-specific",
             description = "Search for assets based on specified parameters to retrieve all assets that meet the criteria."
     )

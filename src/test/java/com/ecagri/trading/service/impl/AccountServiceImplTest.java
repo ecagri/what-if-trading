@@ -46,12 +46,12 @@ class AccountServiceImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        account = new Account("Çağrı Çaycı", 20494680014L);
+        account = new Account("Çağrı Çaycı", 13425786483L);
     }
 
     @Test
     void createAccount_shouldReturnAccountResponseDto() {
-        AccountRequestDto requestDto = new AccountRequestDto("Çağrı Çaycı", 20494680014L);
+        AccountRequestDto requestDto = new AccountRequestDto("Çağrı Çaycı", 13425786483L);
         Account accountEntity = new Account();
         Account savedAccountEntity = new Account();
         AccountResponseDto expectedResponseDto = new AccountResponseDto();
@@ -97,7 +97,7 @@ class AccountServiceImplTest {
 
     @Test
     void getAccountById_shouldThrowExceptionWhenNoUser(){
-        long accountId = 20494680014L;
+        long accountId = 13425786483L;
 
         when(accountRepository.findByAccountOwnerId(accountId)).thenReturn(Optional.empty());
 
@@ -171,7 +171,7 @@ class AccountServiceImplTest {
         when(portfolioRepository.findById(portfolio1.getPortfolioId())).thenReturn(Optional.of(portfolio1));
         when(portfolioRepository.findById(portfolio2.getPortfolioId())).thenReturn(Optional.of(portfolio2));
 
-        accountService.deleteAccount(20494680014L);
+        accountService.deleteAccount(13425786483L);
 
         verify(portfolioService).deletePortfolio(portfolio1.getPortfolioId());
         verify(portfolioService).deletePortfolio(portfolio2.getPortfolioId());
