@@ -43,7 +43,7 @@ public class StockDto {
     @Schema(description = "Percentage change in stock price during the day.", example = "0.45")
     private BigDecimal changePercentage;
 
-    @Schema(description = "Date and time of the stock data", example = "2024-09-18T15:35:45")
+    @Schema(description = "LocalDate and time of the stock data", example = "2024-09-18T15:35:45")
     private LocalDateTime date;
 
 }

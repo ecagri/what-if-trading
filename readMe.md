@@ -25,6 +25,13 @@ The "What If Trading" application allows users to simulate trading in the Borsa 
 - **Test Framework**: JUnit 5 and Mockito were used for writing and executing the unit tests.
 ![img.png](unitTest.png)
 
+## Security
+- **Authentication**: JWT (JSON Web Token) is used for authentication. Upon login, a token is generated and sent to the client, which is then included in the Authorization header for all API requests.
+- **Authorization**: Most API endpoints require a valid JWT. Only authentication and stock price APIs are publicly accessible.
+- **Token Expiry**: JWTs have an expiration time, after which reauthentication is needed to maintain security.
+- **Data Encryption**: Passwords and sensitive data are securely encrypted and stored in the database.
+- **Secrets**: Sensitive information such as database passwords, API keys, and JWT secret keys are stored securely in a config.properties file, which is included in .gitignore to prevent it from being exposed in version control.
+![img.png](authentication.png)
 
 ## Features
 - **Account Management**: Customers can open account within the app.
@@ -35,6 +42,8 @@ The "What If Trading" application allows users to simulate trading in the Borsa 
 - **Performance Tracking**: Users can monitor their trading performance to make informed decisions.
 
 ## Future Enhancements
-- ~~Unit testing for services~~ (Completed)
-- User authentication and authorization (using Spring Security)
+- ~~Unit testing for services~~ 
+- ~~User authentication and authorization (using Spring Security)~~ 
+- Logger
+- Exception Handling Mechanism
 - Additional analytics and reporting features

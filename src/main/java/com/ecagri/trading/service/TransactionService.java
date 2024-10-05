@@ -1,7 +1,7 @@
 package com.ecagri.trading.service;
 
-import com.ecagri.trading.dto.TransactionRequestDto;
-import com.ecagri.trading.dto.TransactionResponseDto;
+import com.ecagri.trading.dto.request.TransactionRequestDto;
+import com.ecagri.trading.dto.response.TransactionResponseDto;
 
 import java.util.List;
 

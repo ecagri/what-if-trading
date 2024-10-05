@@ -1,7 +1,7 @@
 package com.ecagri.trading.mapper;
 
-import com.ecagri.trading.dto.TransactionRequestDto;
-import com.ecagri.trading.dto.TransactionResponseDto;
+import com.ecagri.trading.dto.request.TransactionRequestDto;
+import com.ecagri.trading.dto.response.TransactionResponseDto;
 import com.ecagri.trading.entity.Transaction;
 
 public class TransactionMapper {

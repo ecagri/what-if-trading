@@ -1,7 +1,7 @@
 package com.ecagri.trading.mapper;
 
-import com.ecagri.trading.dto.AssetResponseDto;
-import com.ecagri.trading.dto.AssetRequestDto;
+import com.ecagri.trading.dto.response.AssetResponseDto;
+import com.ecagri.trading.dto.request.AssetRequestDto;
 import com.ecagri.trading.entity.Asset;
 
 public class AssetMapper {

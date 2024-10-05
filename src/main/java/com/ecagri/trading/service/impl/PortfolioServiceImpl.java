@@ -1,7 +1,7 @@
 package com.ecagri.trading.service.impl;
 
-import com.ecagri.trading.dto.PortfolioRequestDto;
-import com.ecagri.trading.dto.PortfolioResponseDto;
+import com.ecagri.trading.dto.request.PortfolioRequestDto;
+import com.ecagri.trading.dto.response.PortfolioResponseDto;
 import com.ecagri.trading.entity.Account;
 import com.ecagri.trading.entity.Asset;
 import com.ecagri.trading.entity.Portfolio;
@@ -26,8 +26,8 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     private final AccountRepository accountRepository;
     private final PortfolioRepository portfolioRepository;
-    private AssetRepository assetRepository;
-    private TransactionRepository transactionRepository;
+    private final AssetRepository assetRepository;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
     public PortfolioServiceImpl(PortfolioRepository portfolioRepository, AccountRepository accountRepository, AssetRepository assetRepository, TransactionRepository transactionRepository) {

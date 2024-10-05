@@ -1,4 +1,4 @@
-package com.ecagri.trading.dto;
+package com.ecagri.trading.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -12,14 +12,12 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(name = "Transaction Request", description = "Data Transfer Object (DTO) for creating a transaction.")
+@Schema(name = "Asset Request", description = "Data Transfer Object (DTO) for creating an asset.")
 
-public class TransactionRequestDto {
-
-
+public class AssetRequestDto {
     @Schema(description = "Code of the stock", example = "AKBNK")
     private String stockCode;
 
-    @Schema(description = "The amount of stock transacted.", example = "5.00")
-    private BigDecimal stockQuantity;
+    @Schema(description = "The quantity of stock currently in the portfolio.", example = "5.00")
+    private BigDecimal quantity;
 }

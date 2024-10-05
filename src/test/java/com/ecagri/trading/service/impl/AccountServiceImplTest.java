@@ -1,7 +1,7 @@
 package com.ecagri.trading.service.impl;
 
-import com.ecagri.trading.dto.AccountRequestDto;
-import com.ecagri.trading.dto.AccountResponseDto;
+import com.ecagri.trading.dto.request.AccountRequestDto;
+import com.ecagri.trading.dto.response.AccountResponseDto;
 import com.ecagri.trading.entity.Account;
 import com.ecagri.trading.entity.Asset;
 import com.ecagri.trading.entity.Portfolio;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +52,13 @@ class AccountServiceImplTest {
 
     @Test
     void createAccount_shouldReturnAccountResponseDto() {
-        AccountRequestDto requestDto = new AccountRequestDto("Çağrı Çaycı", 13425786483L);
+        AccountRequestDto requestDto = new AccountRequestDto(
+                12345678910L,
+                "Çağrı Çaycı",
+                "SecurePass123!",
+                "cagri@example.com",
+                LocalDate.now()
+        );
         Account accountEntity = new Account();
         Account savedAccountEntity = new Account();
         AccountResponseDto expectedResponseDto = new AccountResponseDto();
@@ -85,11 +92,11 @@ class AccountServiceImplTest {
         AccountResponseDto expectedResponseDto = new AccountResponseDto();
 
         try (MockedStatic<AccountMapper> utilities = Mockito.mockStatic(AccountMapper.class)) {
-            when(accountRepository.findByAccountOwnerId(account.getAccountId())).thenReturn(Optional.of(account));
+            when(accountRepository.findByAccountOwnerId(account.getAccountOwnerId())).thenReturn(Optional.of(account));
 
             utilities.when(() -> AccountMapper.toAccountDto(account)).thenReturn(expectedResponseDto);
 
-            AccountResponseDto accountResponseDto = accountService.getAccount(account.getAccountId());
+            AccountResponseDto accountResponseDto = accountService.getAccount(account.getAccountOwnerId());
 
             assertEquals(expectedResponseDto, accountResponseDto);
         }
@@ -125,7 +132,7 @@ class AccountServiceImplTest {
 
         when(accountRepository.findByAccountOwnerId(account.getAccountOwnerId())).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> accountService.updateAccount(account.getAccountId(), accountOwnerName));
+        assertThrows(IllegalArgumentException.class, () -> accountService.updateAccount(account.getAccountOwnerId(), accountOwnerName));
 
     }
 

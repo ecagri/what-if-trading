@@ -1,7 +1,7 @@
 package com.ecagri.trading.controller;
 
-import com.ecagri.trading.dto.PortfolioRequestDto;
-import com.ecagri.trading.dto.PortfolioResponseDto;
+import com.ecagri.trading.dto.request.PortfolioRequestDto;
+import com.ecagri.trading.dto.response.PortfolioResponseDto;
 import com.ecagri.trading.service.PortfolioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -59,7 +58,7 @@ public class PortfolioController {
     )
     @PutMapping(path="/{portfolio_id}")
     public ResponseEntity<PortfolioResponseDto> updatePortfolio(@PathVariable Long portfolio_id, @RequestParam(required = false) String portfolio_name, @RequestParam(required = false) BigDecimal balance) {
-        return null;
+        return new ResponseEntity<>(portfolioService.updatePortfolio(portfolio_id, portfolio_name, balance), HttpStatus.OK);
     }
 
     @Operation(summary = "Delete a portfolio",

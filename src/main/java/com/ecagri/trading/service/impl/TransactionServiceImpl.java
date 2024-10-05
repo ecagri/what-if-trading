@@ -1,7 +1,7 @@
 package com.ecagri.trading.service.impl;
 
-import com.ecagri.trading.dto.TransactionRequestDto;
-import com.ecagri.trading.dto.TransactionResponseDto;
+import com.ecagri.trading.dto.request.TransactionRequestDto;
+import com.ecagri.trading.dto.response.TransactionResponseDto;
 import com.ecagri.trading.entity.*;
 import com.ecagri.trading.mapper.TransactionMapper;
 import com.ecagri.trading.repository.AssetRepository;
@@ -23,13 +23,13 @@ import java.util.stream.Collectors;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-    private PortfolioRepository portfolioRepository;
+    private final PortfolioRepository portfolioRepository;
 
-    private AssetRepository assetRepository;
+    private final AssetRepository assetRepository;
 
-    private StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository, PortfolioRepository portfolioRepository, AssetRepository assetRepository, StockRepository stockRepository) {

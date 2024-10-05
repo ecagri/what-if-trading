@@ -1,7 +1,7 @@
 package com.ecagri.trading.controller;
 
-import com.ecagri.trading.dto.AssetRequestDto;
-import com.ecagri.trading.dto.AssetResponseDto;
+import com.ecagri.trading.dto.request.AssetRequestDto;
+import com.ecagri.trading.dto.response.AssetResponseDto;
 import com.ecagri.trading.service.AssetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

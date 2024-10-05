@@ -1,4 +1,4 @@
-package com.ecagri.trading.dto;
+package com.ecagri.trading.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

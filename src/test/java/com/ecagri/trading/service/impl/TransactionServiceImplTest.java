@@ -1,7 +1,7 @@
 package com.ecagri.trading.service.impl;
 
-import com.ecagri.trading.dto.TransactionRequestDto;
-import com.ecagri.trading.dto.TransactionResponseDto;
+import com.ecagri.trading.dto.request.TransactionRequestDto;
+import com.ecagri.trading.dto.response.TransactionResponseDto;
 import com.ecagri.trading.entity.Asset;
 import com.ecagri.trading.entity.Portfolio;
 import com.ecagri.trading.entity.Stock;

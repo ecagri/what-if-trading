@@ -1,7 +1,7 @@
 package com.ecagri.trading.service.impl;
 
-import com.ecagri.trading.dto.PortfolioRequestDto;
-import com.ecagri.trading.dto.PortfolioResponseDto;
+import com.ecagri.trading.dto.request.PortfolioRequestDto;
+import com.ecagri.trading.dto.response.PortfolioResponseDto;
 import com.ecagri.trading.entity.Account;
 import com.ecagri.trading.entity.Asset;
 import com.ecagri.trading.entity.Portfolio;
@@ -94,19 +94,19 @@ class PortfolioServiceImplTest {
 
         PortfolioRequestDto portfolioRequestDto = new PortfolioRequestDto("Long-term", BigDecimal.valueOf(500));
 
-        Account account = new Account(1L, "Çağrı Çaycı", 13425786483L, null);
+        Account account = new Account("Çağrı Çaycı", 13425786483L);
 
         Portfolio portfolio = new Portfolio(1L, "Long-term", null, BigDecimal.valueOf(500), null, null);
 
         Portfolio savedPortfolio = new Portfolio(1L, "Long-term", account, BigDecimal.valueOf(500), null, null);
 
-        when(accountRepository.findById(account.getAccountId())).thenReturn(Optional.of(account));
+        when(accountRepository.findById(account.getAccountOwnerId())).thenReturn(Optional.of(account));
 
         when(portfolioRepository.save(any(Portfolio.class))).thenReturn(savedPortfolio);
 
         PortfolioResponseDto expectedPortfolioResponseDto = PortfolioMapper.toPortfolioDto(portfolio);
 
-        PortfolioResponseDto actualPortfolioResponseDto = portfolioService.createPortfolio(account.getAccountId(), portfolioRequestDto);
+        PortfolioResponseDto actualPortfolioResponseDto = portfolioService.createPortfolio(account.getAccountOwnerId(), portfolioRequestDto);
 
         assertEquals(expectedPortfolioResponseDto, actualPortfolioResponseDto);
 
@@ -222,8 +222,8 @@ class PortfolioServiceImplTest {
 
     @Test
     void getPortfoliosWithAccountId_shouldReturnListOfPortfolioResponseDto() {
-        Account account1 = new Account(1L, "Çağrı Çaycı", 13425786483L, null);
-        Account account2 = new Account(2L, "Çağrı Çaycı 1", 13425786484L, null);
+        Account account1 = new Account("Çağrı Çaycı", 13425786483L);
+        Account account2 = new Account("Çağrı Çaycı 1", 13425786484L);
 
         Portfolio portfolio1 = new Portfolio(1L, "Long-term", account1, BigDecimal.valueOf(500), null, null);
         Portfolio portfolio2 = new Portfolio(2L, "Short-term", account2, BigDecimal.valueOf(1000), null, null);
@@ -245,9 +245,9 @@ class PortfolioServiceImplTest {
         account1.setPortfolios(Arrays.asList(portfolio1, portfolio3));
         account2.setPortfolios(Arrays.asList(portfolio2));
 
-        when(accountRepository.findById(account1.getAccountId())).thenReturn(Optional.of(account1));
+        when(accountRepository.findById(account1.getAccountOwnerId())).thenReturn(Optional.of(account1));
 
-        List<PortfolioResponseDto> result = portfolioService.getPortfolios(account1.getAccountId());
+        List<PortfolioResponseDto> result = portfolioService.getPortfolios(account1.getAccountOwnerId());
 
         assertEquals(result, Stream.of(portfolio1, portfolio3).map(PortfolioMapper::toPortfolioDto).collect(Collectors.toList()));
     }

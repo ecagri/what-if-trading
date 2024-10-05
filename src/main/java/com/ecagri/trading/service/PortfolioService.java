@@ -1,7 +1,7 @@
 package com.ecagri.trading.service;
 
-import com.ecagri.trading.dto.PortfolioRequestDto;
-import com.ecagri.trading.dto.PortfolioResponseDto;
+import com.ecagri.trading.dto.request.PortfolioRequestDto;
+import com.ecagri.trading.dto.response.PortfolioResponseDto;
 
 import java.math.BigDecimal;
 import java.util.List;

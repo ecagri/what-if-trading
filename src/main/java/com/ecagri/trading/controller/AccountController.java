@@ -1,7 +1,7 @@
 package com.ecagri.trading.controller;
 
-import com.ecagri.trading.dto.AccountRequestDto;
-import com.ecagri.trading.dto.AccountResponseDto;
+import com.ecagri.trading.dto.request.AccountRequestDto;
+import com.ecagri.trading.dto.response.AccountResponseDto;
 import com.ecagri.trading.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +30,12 @@ public class AccountController {
     )
     @PostMapping
     public ResponseEntity<AccountResponseDto> createAccount(@Valid @RequestBody AccountRequestDto accountDto) {
-        return new ResponseEntity<>(accountService.createAccount(accountDto), HttpStatus.CREATED);
+        try{
+            return new ResponseEntity<>(accountService.createAccount(accountDto), HttpStatus.CREATED);
+
+        }catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Operation(summary = "Get all accounts",

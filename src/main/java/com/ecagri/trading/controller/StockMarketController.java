@@ -16,7 +16,7 @@ import java.util.List;
 @Tag(name = "Stock Market Controller", description = "Operations on stock market.")
 public class StockMarketController {
 
-    private StockMarketService stockMarketService;
+    private final StockMarketService stockMarketService;
 
     @Autowired
     StockMarketController(StockMarketService stockMarketService) {
@@ -35,7 +35,7 @@ public class StockMarketController {
     )
     @GetMapping("/last")
     public ResponseEntity<List<StockDto>> getLastStockPrices() {
-        return new ResponseEntity<>(stockMarketService.getStockPrices(), HttpStatus.OK);
+        return new ResponseEntity<>(stockMarketService.getLastStockPrices(), HttpStatus.OK);
     }
 
 }

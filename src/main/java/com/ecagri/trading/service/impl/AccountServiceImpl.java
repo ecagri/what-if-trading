@@ -1,7 +1,7 @@
 package com.ecagri.trading.service.impl;
 
-import com.ecagri.trading.dto.AccountRequestDto;
-import com.ecagri.trading.dto.AccountResponseDto;
+import com.ecagri.trading.dto.request.AccountRequestDto;
+import com.ecagri.trading.dto.response.AccountResponseDto;
 import com.ecagri.trading.entity.Account;
 import com.ecagri.trading.entity.Portfolio;
 import com.ecagri.trading.mapper.AccountMapper;
@@ -10,6 +10,7 @@ import com.ecagri.trading.service.AccountService;
 import com.ecagri.trading.service.PortfolioService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,16 +22,24 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final PortfolioService portfolioService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AccountServiceImpl(AccountRepository accountRepository, PortfolioService portfolioService) {
+    public AccountServiceImpl(AccountRepository accountRepository, PortfolioService portfolioService, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
         this.portfolioService = portfolioService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public AccountResponseDto createAccount(AccountRequestDto accountDto) {
+        if(accountRepository.findByAccountOwnerId(accountDto.getAccountOwnerId()).isPresent()){
+            throw new RuntimeException("The account already exists.");
+        }
+
         Account account = AccountMapper.toAccount(accountDto);
+
+        account.setAccountOwnerPassword(passwordEncoder.encode(accountDto.getAccountOwnerPassword()));
 
         Account savedAccount = accountRepository.save(account);
 
